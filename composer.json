@@ -1,9 +1,16 @@
 {
+    "minimum-stability": "stable",
+    "autoload": {
+        "psr-4": {
+            "Imod\\": "src/"
+        }
+    },
     "require": {
         "symfony/dom-crawler": "^3.4",
         "guzzlehttp/guzzle": "^6.3",
         "symfony/http-foundation": "^3.4",
         "symfony/css-selector": "^3.4",
-        "phpoffice/phpspreadsheet": "^1.4"
+        "phpoffice/phpspreadsheet": "^1.4",
+        "phpunit/phpunit": "4.8.*"
     }
 }
