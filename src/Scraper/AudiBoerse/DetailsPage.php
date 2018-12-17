@@ -2,14 +2,17 @@
 
 namespace Imod\Scraper\AudiBoerse;
 
-use function foo\func;
 use Symfony\Component\DomCrawler\Crawler;
 
 class DetailsPage extends \Imod\Scraper\DetailsPage {
 
+	protected $originalId;
+
 	protected $modelName;
 
 	protected $bodyType;
+
+	protected $featuresCrawler;
 
 	public function getModelName() {
 		return $this->modelName;
@@ -33,6 +36,18 @@ class DetailsPage extends \Imod\Scraper\DetailsPage {
 		return 'parser.audi.detail_page';
 	}
 
+    protected function getOriginalId()
+    {
+        if (is_null($this->originalId)) {
+            $url = $this->getUrl();
+            $path = parse_url($url, PHP_URL_PATH);
+            $file = pathinfo($path, PATHINFO_FILENAME);
+            $fileParts = explode('_', $file, 2);
+            $this->originalId = $fileParts[1];
+        }
+        return $this->originalId;
+	}
+
 	protected function getHighlights($name) {
 		return strtolower($this->getFromCrawler($this->crawler->filter('section[data-module="highlights"] dl.module-highlights-item-' . $name . '>dd')));
 	}
@@ -41,8 +56,22 @@ class DetailsPage extends \Imod\Scraper\DetailsPage {
 		return strtolower($this->getFromCrawler($this->crawler->filter('section[data-module="technical-data"] dl:contains("' . $name . '")')->filter('dd')));
 	}
 
+    protected function getFeaturesCrawler() {
+        if (is_null($this->featuresCrawler)) {
+            $url = 'https://www.audi-boerse.de/gebrauchtwagen/i/d|' . $this->getOriginalId() . '/controller.htm?act=offer&v=10';
+            $httpClient = $this->getHttpClient();
+            $response = $httpClient->get($url);
+            $this->featuresCrawler = new Crawler($response->getBody()->getContents());
+        }
+        return $this->featuresCrawler;
+	}
+
+	protected function getSellerAddressData($dataName) {
+		return $this->getFromCrawler($this->crawler->filter('div.vtp-dealer-info-box span[itemprop="address"]>meta[itemprop="' . $dataName . '"]'), 'content');
+	}
+
 	protected function parseEditDate() {
-		return time();
+		return '';
 	}
 
 	protected function parseTitle() {
@@ -58,11 +87,7 @@ class DetailsPage extends \Imod\Scraper\DetailsPage {
 	}
 
 	protected function parseExternalId() {
-		$url = $this->getUrl();
-		$path = parse_url($url, PHP_URL_PATH);
-		$file = pathinfo($path, PATHINFO_FILENAME);
-		$fileParts = explode('_', $file, 2);
-		return $fileParts[1];
+		return $this->getOriginalId();
 	}
 
 	protected function parsePrice() {
@@ -71,7 +96,7 @@ class DetailsPage extends \Imod\Scraper\DetailsPage {
 
 	protected function parseImages() {
 		$result = [];
-		$this->crawler->filter('ul.vtp-stage-gallery-content li.vtp-stage-gallery-item picture.picture img')->each(function(Crawler $img) use ($result) {
+		$this->crawler->filter('ul.vtp-stage-gallery-content li.vtp-stage-gallery-item picture.picture img')->each(function(Crawler $img) use (&$result) {
 			$result[] = $img->attr('srcset');
 		});
 		return $result;
@@ -82,8 +107,13 @@ class DetailsPage extends \Imod\Scraper\DetailsPage {
 		if (!$regDate) {
 			return '';
 		}
-		$date = new \DateTime($regDate);
-		return intval($date->format($format));
+		try {
+			$date = new \DateTime($regDate);
+			return intval($date->format($format));
+		}
+		catch (\Exception $e) {
+			return '';
+		}
 	}
 
 	protected function parseTaxDeductible() {
@@ -104,14 +134,13 @@ class DetailsPage extends \Imod\Scraper\DetailsPage {
 
 	protected function parseCo2Emissions() {
 
-		return intval($this->pregMatch('/^([\d]+) g\/km/', trim($this->getTechData('Emissionen komb.'))));
+		return intval($this->pregMatch('/^([\d]+) g\/km/', $this->getTechData('Emissionen komb.')));
 	}
 
 	protected function parseVariant() {
 		$result = $this->data['titel'];
-		var_export($result);
 		foreach (['merk', 'model', 'carrosserie'] as $field) {
-			$result = str_replace($this->data[$field], '', $result);
+			$result = str_ireplace($this->data[$field], '', $result);
 		}
 		$result = preg_replace('/(\s+)/', ' ', $result);
 		$result = trim($result);
@@ -145,7 +174,7 @@ class DetailsPage extends \Imod\Scraper\DetailsPage {
 	}
 
 	protected function parseCylindersCapacity() {
-		return intval($this->pregMatch('/^([\d]+)/', trim($this->getTechData('Hubraum'))));
+		return intval($this->pregMatch('/^([\d]+)/', $this->getTechData('Hubraum')));
 	}
 
 	protected function parseDoorsNumber() {
@@ -170,15 +199,14 @@ class DetailsPage extends \Imod\Scraper\DetailsPage {
 
 	protected function parseOptions() {
 		$result = [];
-		$this->crawler->filter('div.vtp-feature-teasers article.vtp-feature-teaser div.text, div.vtp-description-list-wrap dd')->each(function (Crawler $crawler) use ($result) {
-			$result[] = $crawler->text();
+		$this->getFeaturesCrawler()->filter('div.vtp-feature-teasers article.vtp-feature-teaser div.text, div.vtp-description-list-wrap dd')->each(function (Crawler $crawler) use (&$result) {
+			$result[] = trim($crawler->text());
 		});
-		var_export($result);die();
 		return $result;
 	}
 
 	protected function parseBodyType() {
-		return $this->getBodyType();
+		return strtolower($this->getBodyType());
 	}
 
 	protected function parseExteriorColor() {
@@ -190,11 +218,15 @@ class DetailsPage extends \Imod\Scraper\DetailsPage {
 	}
 
 	protected function parseSellerAddress() {
-		return $this->getFromCrawler($this->crawler->filter('div.vtp-dealer-info-box div.address'));
+		return implode(' ', [
+			$this->getSellerAddressData('streetAddress'),
+			$this->getSellerAddressData('postalCode'),
+			$this->getSellerAddressData('addressLocality'),
+		]);
 	}
 
 	protected function parseSellerPhone() {
-		return $this->getFromCrawler($this->crawler->filter('div.vtp-dealer-info-box div.phone a.needsclick'));
+		return $this->getSellerAddressData('telephone');
 	}
 
 	protected function parseSellerName() {
@@ -202,11 +234,11 @@ class DetailsPage extends \Imod\Scraper\DetailsPage {
 	}
 
 	protected function parseCoating() {
-		return '?';
+		return '';
 	}
 
 	protected function parseToken() {
-		return '?';
+		return '';
 	}
 
 

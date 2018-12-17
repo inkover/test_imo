@@ -94,7 +94,7 @@ abstract class Scraper {
 		if (empty($result)) {
 			$result = $default;
 		}
-		return $result;
+		return trim($result);
 	}
 
 	protected function pregMatch($preg, $string, $default = '', $matchId = 1) {
