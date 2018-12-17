@@ -10,7 +10,14 @@ use Imod\Scraper\PorscheFinder\DetailsPage;
 
 class PorscheDetailsPageTest extends PHPUnit_Framework_TestCase {
 
-	/** @var \Imod\Scraper\AudiBoerse\DetailsPage */
+	protected $jsonData = [
+		'foo' => 234,
+		'bar' => [
+			['sss' => 'ddd']
+		]
+	];
+
+	/** @var \Imod\Scraper\PorscheFinder\DetailsPage */
 	protected $scraper;
 
 	protected function setUp() {
@@ -38,6 +45,32 @@ class PorscheDetailsPageTest extends PHPUnit_Framework_TestCase {
 		return [
 			[null],
 			['https://test']
+		];
+	}
+
+	/**
+	 * @dataProvider getJsonData
+	 * @param $path
+	 * @param $value
+	 */
+	public function testJsonData($path, $value) {
+		$this->assertSame($value, $this->scraper->getJsonData($path, $this->jsonData));
+	}
+
+	public function getJsonData() {
+		return [
+			[
+				'foo',
+				234
+			],
+			[
+				'bar',
+				[['sss' => 'ddd']]
+			],
+			[
+				'bar.0.sss',
+				'ddd'
+			]
 		];
 	}
 
