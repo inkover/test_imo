@@ -47,8 +47,6 @@ abstract class DetailsPage extends Scraper {
 
 	protected function parse() {
 
-		parent::parse();
-
 		$this->data = [];
 
 		//Common data

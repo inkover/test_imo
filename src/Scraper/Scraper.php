@@ -19,12 +19,11 @@ abstract class Scraper {
 
 	protected $data;
 
-	/** @var Crawler */
-	protected $crawler;
-
 
 	/** @var HttpClient */
 	private $httpClient;
+
+	abstract protected function parse();
 
 	abstract protected function getParserAlias();
 
@@ -52,11 +51,6 @@ abstract class Scraper {
 		$this->content = $response->getBody()->getContents();
 	}
 
-	protected function parse() {
-		$this->crawler = new Crawler($this->content);
-		$this->data = [];
-	}
-
 	/**
 	 * @return HttpClient
 	 */
@@ -76,26 +70,16 @@ abstract class Scraper {
 			'headers'     => [
 				'User-Agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.99 Safari/537',
 
-			]
+			] + $this->getAddonHttpClientHeaders()
 		]);
 		
 	}
 
-	protected function getFromCrawler(Crawler $crawler, $attr = null, $default = null) {
-		if ($crawler->count() == 0) {
-			return $default;
-		}
-		if ($attr) {
-			$result = $crawler->attr($attr);
-		}
-		else {
-			$result = $crawler->text();
-		}
-		if (empty($result)) {
-			$result = $default;
-		}
-		return trim($result);
+	protected function getAddonHttpClientHeaders() {
+		return [];
 	}
+
+
 
 	protected function pregMatch($preg, $string, $default = '', $matchId = 1) {
 		if (empty($string)) {

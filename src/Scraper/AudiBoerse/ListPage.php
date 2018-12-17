@@ -3,9 +3,12 @@
 
 namespace Imod\Scraper\AudiBoerse;
 
+use Imod\Scraper\HtmlScraper;
 use Symfony\Component\DomCrawler\Crawler;
 
 class ListPage extends \Imod\Scraper\ListPage {
+
+	use HtmlScraper;
 
 	const PER_PAGE = 24;
 

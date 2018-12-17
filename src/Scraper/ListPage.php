@@ -20,7 +20,6 @@ abstract class ListPage extends Scraper {
 	abstract protected function setNextPageUrl();
 
 	protected function parse() {
-		parent::parse();
 
 		$this->data = [
 			'parser' => $this->getParserAlias(),

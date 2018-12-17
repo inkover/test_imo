@@ -2,9 +2,12 @@
 
 namespace Imod\Scraper\AudiBoerse;
 
+use Imod\Scraper\HtmlScraper;
 use Symfony\Component\DomCrawler\Crawler;
 
 class DetailsPage extends \Imod\Scraper\DetailsPage {
+
+	use HtmlScraper;
 
 	protected $originalId;
 

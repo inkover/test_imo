@@ -16,6 +16,8 @@ $url = 'https://www.audi-boerse.de/gebrauchtwagen/audi/q8/q8/wuppertal/diesel/au
 
 
 $scraper = new \Imod\Scraper\AudiBoerse\DetailsPage();
+$scraper->setBodyType('SUV');
+$scraper->setModelName('S8');
 $scraper->setUrl($url);
 $scraper->scrape();
 var_dump($scraper->getData());
