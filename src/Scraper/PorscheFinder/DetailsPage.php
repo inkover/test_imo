@@ -170,35 +170,38 @@ class DetailsPage extends \Imod\Scraper\DetailsPage {
 	}
 
 	protected function parseBodyType() {
-		return '?';
+		return '';
 	}
 
 	protected function parseExteriorColor() {
-
+		return strtolower($this->getJsonData('vehicle.summary.exteriorColor.colorOptionTag.name'));
 	}
 
 	protected function parseInteriorColor() {
-		// TODO: Implement parseInteriorColor() method.
+		return strtolower($this->getJsonData('vehicle.summary.interiorEquipment.colorOptionTag.name'));
 	}
 
 	protected function parseSellerAddress() {
-		// TODO: Implement parseSellerAddress() method.
+		var_export($this->getJsonData('vehicle.summary.owningOrganisation.displayName'));
+		$result = str_replace([PHP_EOL, $this->getJsonData('vehicle.summary.owningOrganisation.displayName')], [' ', ''], $this->getJsonData('vehicle.summary.owningOrganisation.postalAddress'));
+		$result = trim(preg_replace('/\s+/', ' ', $result));
+		return $result;
 	}
 
 	protected function parseSellerPhone() {
-		// TODO: Implement parseSellerPhone() method.
+		return $this->getJsonData('vehicle.summary.owningOrganisation.telephoneNumber');
 	}
 
 	protected function parseSellerName() {
-		// TODO: Implement parseSellerName() method.
+		return $this->getJsonData('vehicle.summary.owningOrganisation.companyName');
 	}
 
 	protected function parseCoating() {
-		// TODO: Implement parseCoating() method.
+		return '';
 	}
 
 	protected function parseToken() {
-		// TODO: Implement parseToken() method.
+		return '';
 	}
 
 
