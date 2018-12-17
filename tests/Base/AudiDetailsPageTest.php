@@ -439,7 +439,7 @@ class AudiDetailsPageTest extends PHPUnit_Framework_TestCase {
 			return 'https://www.audi-boerse.de/gebrauchtwagen/';
 		}
 		else {
-			return 'http://imod.vm/html/audi/';
+			return 'http://imod.vm/html/audi/detail/';
 		}
 	}
 
