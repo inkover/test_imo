@@ -117,7 +117,7 @@ class DetailsPage extends \Imod\Scraper\DetailsPage {
 	}
 
 	protected function parseTaxDeductible() {
-		return $this->getTechData('Jahressteuer für dieses Fahrzeug');
+		return intval($this->getFromCrawler($this->crawler->filter('section[data-module="technical-data"] dl:contains("-Effizienz") table tr:contains("Jahressteuer für dieses Fahrzeug")>td')));
 	}
 
 	protected function parseTaxPercentage() {
@@ -125,7 +125,7 @@ class DetailsPage extends \Imod\Scraper\DetailsPage {
 		if (!$taxSum) {
 			return 0;
 		}
-		return round($taxSum / $this->data['prijs'] * 100);
+		return (round($taxSum / $this->data['prijs'] * 100));
 	}
 
 	protected function parseFuel() {
@@ -174,15 +174,15 @@ class DetailsPage extends \Imod\Scraper\DetailsPage {
 	}
 
 	protected function parseCylindersCapacity() {
-		return intval($this->pregMatch('/^([\d]+)/', $this->getTechData('Hubraum')));
+		return intval(str_replace('.', '', $this->pregMatch('/^([\d\.]+)/', $this->getTechData('Hubraum'))));
 	}
 
 	protected function parseDoorsNumber() {
-		return '?';
+		return '';
 	}
 
 	protected function parseSeatsNumber() {
-		return '?';
+		return '';
 	}
 
 	protected function parseFuelConsumptionCombined() {

@@ -92,12 +92,12 @@ class AudiDetailsPageTest extends PHPUnit_Framework_TestCase {
 					'vermogen_kw'           => 130,
 					'aantal_cilinders'      => 4,//amount cilinders
 					'cilinderinhoud'        => 1968,//cilinder capacity
-					'aantal_deuren'         => '?',//total doors
-					'aantal_zitplaatsen'    => '?',//number seats
+					'aantal_deuren'         => '',//total doors
+					'aantal_zitplaatsen'    => '',//number seats
 					'verbruik_gecombineerd' => round(4.9, 2),//fuel consumption combined
 					'verbruik_stad'         => round(6.0, 2),//fuel consumption city
 					'verbruik_snelweg'      => round(4.4, 2),//fuel consumption hightway
-					'btw_verrekenbaar'      => '',//tax deductable
+					'btw_verrekenbaar'      => 0,//tax deductable
 					'btw_percentage'        => 0,//tax percentage
 					'weblink_advertentie'   => $this->getUrlPrefix() . '177ps-frontantrieb-schwarz-2_DEU43231003415.htm',//weblink
 					'uitrusting'            => [ //equipment/options
@@ -212,101 +212,230 @@ class AudiDetailsPageTest extends PHPUnit_Framework_TestCase {
 			],
 			[
 				$this->getUrlPrefix() . '286ps-allradantrieb-silber-2_DEU2185285215842NW.htm',
+				'Q8',
+				'SUV',
 				[
 					'parser'                => 'parser.audi.detail_page',
-					'titel'                 => '', //title
-					'merk'                  => '',//brand
-					'model'                 => '',//model
-					'external_id'           => '',//external ID
-					'prijs'                 => '', //price of the car
-					'brandstof'             => '',//fuel
-					'bouwjaar'              => '',//build year
-					'bouwjaar_maand'        => '',//build month
-					'co2uitstoot'           => '',//co2-emission
+					'titel'                 => 'Audi Q8', //title
+					'merk'                  => 'Audi',//brand
+					'model'                 => 'Q8',//model
+					'external_id'           => 'DEU2185285215842NW',//external ID
+					'prijs'                 => 84990, //price of the car
+					'brandstof'             => 'diesel',//fuel
+					'bouwjaar'              => 2018,//build year
+					'bouwjaar_maand'        => 10,//build month
+					'co2uitstoot'           => 0,//co2-emission
 					'variant'               => '',//variant-> like Avant|GTI etc. ??
-					'versnellingsbak'       => '',//transmission
-					'kilometerstand'        => '',//milage
-					'vermogen_pk'           => '',// Horse Power
-					'vermogen_kw'           => '',
+					'versnellingsbak'       => 'automatik',//transmission
+					'kilometerstand'        => 3580,//milage
+					'vermogen_pk'           => 286,// Horse Power
+					'vermogen_kw'           => 210,
 					'aantal_cilinders'      => '',//amount cilinders
-					'cilinderinhoud'        => '',//cilinder capacity
-					'aantal_deuren'         => 0,//total doors
-					'aantal_zitplaatsen'    => 0,//number seats
-					'verbruik_gecombineerd' => '',//fuel consumption combined
-					'verbruik_stad'         => '',//fuel consumption city
-					'verbruik_snelweg'      => '',//fuel consumption hightway
-					'btw_verrekenbaar'      => '',//tax deductable
-					'btw_percentage'        => '',//tax percentage
-					'weblink_advertentie'   => $this->getUrlPrefix() . '177ps-frontantrieb-schwarz-2_DEU43231003415.htm',//weblink
+					'cilinderinhoud'        => 2967,//cilinder capacity
+					'aantal_deuren'         => '',//total doors
+					'aantal_zitplaatsen'    => '',//number seats
+					'verbruik_gecombineerd' => 6.6,//fuel consumption combined
+					'verbruik_stad'         => 0.0,//fuel consumption city
+					'verbruik_snelweg'      => 0.0,//fuel consumption hightway
+					'btw_verrekenbaar'      => 543,//tax deductable
+					'btw_percentage'        => 1.0,//tax percentage
+					'weblink_advertentie'   => $this->getUrlPrefix() . '286ps-allradantrieb-silber-2_DEU2185285215842NW.htm',//weblink
 					'uitrusting'            => [ //equipment/options
 
 					],
-					'verkoper_adres'        => '',//seller address
-					'verkoper_telefoon'     => '',//seller phone
+					'verkoper_adres'        => 'Uellendahler Straße 306 42109 Wuppertal',//seller address
+					'verkoper_telefoon'     => '+49 202 266310',//seller phone
 					'editted_at'            => '',//edited
-					'carrosserie'           => '',//body type
-					'kleur_exterieur'       => '',//color exterior
+					'carrosserie'           => 'suv',//body type
+					'kleur_exterieur'       => 'florettsilber',//color exterior
 					'kleur_interieur'       => '',//color interior
-					'handler'               => '',//handler/seller
+					'handler'               => 'Audi Zentrum Wuppertal Automobilvertriebgesellschaft Wuppertal GmbH & Co. KG',//handler/seller
 					'bekleding'             => '',//coating
 					'token'                 => '',//unique car token (for exmaple id)
 					'images'                => [
-
+						'//vtpimages.audi.com/carimg/3/1920/1440/1/34550673/12564294809.jpg',
+						'//vtpimages.audi.com/carimg/3/1920/1440/2/34550673/12596962817.jpg',
+						'//vtpimages.audi.com/carimg/3/1920/1440/3/34550673/12596962767.jpg',
+						'//vtpimages.audi.com/carimg/3/1920/1440/4/34550673/12596962766.jpg',
+						'//vtpimages.audi.com/carimg/3/1920/1440/5/34550673/12596962721.jpg',
+						'//vtpimages.audi.com/carimg/3/1920/1440/6/34550673/12596962760.jpg',
+						'//vtpimages.audi.com/carimg/3/1920/1440/7/34550673/12596962476.jpg',
+						'//vtpimages.audi.com/carimg/3/1920/1440/8/34550673/12596962510.jpg',
+						'//vtpimages.audi.com/carimg/3/1920/1440/9/34550673/12596962820.jpg',
+						'//vtpimages.audi.com/carimg/3/1920/1440/10/34550673/12596962723.jpg',
+						'//vtpimages.audi.com/carimg/3/1920/1440/11/34550673/12596962819.jpg',
+						'//vtpimages.audi.com/carimg/3/1920/1440/12/34550673/12596962702.jpg',
+						'//vtpimages.audi.com/carimg/3/1920/1440/13/34550673/12596962847.jpg',
+						'//vtpimages.audi.com/carimg/3/1920/1440/14/34550673/12596962707.jpg',
+						'//vtpimages.audi.com/carimg/3/1920/1440/15/34550673/12596962679.jpg',
+						'//vtpimages.audi.com/carimg/3/1920/1440/1/34550673/12564294809.jpg',
+						'//vtpimages.audi.com/carimg/3/1920/1440/2/34550673/12596962817.jpg',
+						'//vtpimages.audi.com/carimg/3/1920/1440/3/34550673/12596962767.jpg',
+						'//vtpimages.audi.com/carimg/3/1920/1440/4/34550673/12596962766.jpg',
+						'//vtpimages.audi.com/carimg/3/1920/1440/5/34550673/12596962721.jpg',
+						'//vtpimages.audi.com/carimg/3/1920/1440/6/34550673/12596962760.jpg',
+						'//vtpimages.audi.com/carimg/3/1920/1440/7/34550673/12596962476.jpg',
+						'//vtpimages.audi.com/carimg/3/1920/1440/8/34550673/12596962510.jpg',
+						'//vtpimages.audi.com/carimg/3/1920/1440/9/34550673/12596962820.jpg',
+						'//vtpimages.audi.com/carimg/3/1920/1440/10/34550673/12596962723.jpg',
+						'//vtpimages.audi.com/carimg/3/1920/1440/11/34550673/12596962819.jpg',
+						'//vtpimages.audi.com/carimg/3/1920/1440/12/34550673/12596962702.jpg',
+						'//vtpimages.audi.com/carimg/3/1920/1440/13/34550673/12596962847.jpg',
+						'//vtpimages.audi.com/carimg/3/1920/1440/14/34550673/12596962707.jpg',
+						'//vtpimages.audi.com/carimg/3/1920/1440/15/34550673/12596962679.jpg',
 					],
 				]
 			],
 			[
 				$this->getUrlPrefix() . '105ps-frontantrieb-grau-2_DEU232561984.htm',
+				'A3',
+				'Sportback',
 				[
 					'parser'                => 'parser.audi.detail_page',
-					'titel'                 => '', //title
-					'merk'                  => '',//brand
-					'model'                 => '',//model
-					'external_id'           => '',//external ID
-					'prijs'                 => '', //price of the car
-					'brandstof'             => '',//fuel
-					'bouwjaar'              => '',//build year
-					'bouwjaar_maand'        => '',//build month
-					'co2uitstoot'           => '',//co2-emission
+					'titel'                 => 'Audi A3 Sportback', //title
+					'merk'                  => 'Audi',//brand
+					'model'                 => 'A3',//model
+					'external_id'           => 'DEU232561984',//external ID
+					'prijs'                 => 10280, //price of the car
+					'brandstof'             => 'diesel',//fuel
+					'bouwjaar'              => 2012,//build year
+					'bouwjaar_maand'        => 11,//build month
+					'co2uitstoot'           => 112,//co2-emission
 					'variant'               => '',//variant-> like Avant|GTI etc. ??
-					'versnellingsbak'       => '',//transmission
-					'kilometerstand'        => '',//milage
-					'vermogen_pk'           => '',// Horse Power
-					'vermogen_kw'           => '',
+					'versnellingsbak'       => 'handschaltung',//transmission
+					'kilometerstand'        => 76600,//milage
+					'vermogen_pk'           => 105,// Horse Power
+					'vermogen_kw'           => 77,
 					'aantal_cilinders'      => '',//amount cilinders
-					'cilinderinhoud'        => '',//cilinder capacity
-					'aantal_deuren'         => 0,//total doors
-					'aantal_zitplaatsen'    => 0,//number seats
-					'verbruik_gecombineerd' => '',//fuel consumption combined
-					'verbruik_stad'         => '',//fuel consumption city
-					'verbruik_snelweg'      => '',//fuel consumption hightway
-					'btw_verrekenbaar'      => '',//tax deductable
-					'btw_percentage'        => '',//tax percentage
-					'weblink_advertentie'   => $this->getUrlPrefix() . '177ps-frontantrieb-schwarz-2_DEU43231003415.htm',//weblink
+					'cilinderinhoud'        => 1598,//cilinder capacity
+					'aantal_deuren'         => '',//total doors
+					'aantal_zitplaatsen'    => '',//number seats
+					'verbruik_gecombineerd' => 4.2,//fuel consumption combined
+					'verbruik_stad'         => 5.1,//fuel consumption city
+					'verbruik_snelweg'      => 3.8,//fuel consumption hightway
+					'btw_verrekenbaar'      => 0,//tax deductable
+					'btw_percentage'        => 0,//tax percentage
+					'weblink_advertentie'   => $this->getUrlPrefix() . '105ps-frontantrieb-grau-2_DEU232561984.htm',//weblink
 					'uitrusting'            => [ //equipment/options
-
+						 'Ablagepaket',
+						'Aluminium-Gussräder im 6-Speichen-Design, Größe 6,5 J x 16 mit Reifen 205/55 R 16',
+						'Beifahrersitz höheneinstellbar',
+						'Dachreling in Aluminium eloxiert',
+						'Lichtpaket',
+						'Mittelarmlehne vorn',
+						'Navigationssystem mit MMI®-Bedienlogik',
+						'Nebelscheinwerfer',
+						'USB-Vorbereitung Audi exclusive',
+						'USB-Vorbereitung Audi exclusive',
+						'Zigarettenanzünder und Aschenbecher',
+						'Kindersitzbefestigung ISOFIX',
+						'All-Season-Reifen 205/55 R 16',
+						'Komfortpaket plus',
+						'Außenfarbe Dakotagrau',
+						'5 Türen',
+						'Außenspiegel elektrisch einstellbar, Gehäuse in Wagenfarbe lackiert, Spiegelglas links asphärisch, rechts konvex',
+						'Außenspiegel links, asphärisch',
+						'Außenspiegel rechts (großes Sichtfeld), konvex',
+						'Funkfernbedienung',
+						'Halogenscheinwerfer in Freiformtechnik mit Klarglasabdeckung',
+						'Heckscheibenwischer',
+						'Radschrauben Standard',
+						'Scheibenwaschdüsen beheizbar, vorn',
+						'Schutzleisten',
+						'Sportback',
+						'Reifenreparaturset',
+						'Armaturentafel schwarz-schwarz',
+						'Teppich schwarz',
+						'Himmel silber',
+						'Dekoreinlagen Perlglanz',
+						'Fensterheber vorn und hinten elektrisch',
+						'Formhimmel Standard',
+						'Innenspiegel, abblendbar',
+						'Ohne Trennwand',
+						'Scheiben seitlich und hinten in Wärmeschutzverglasung',
+						'Wärmeschutzverglasung',
+						'Sitzbezüge in Stoff Frequenz schwarz',
+						'3 Kopfstützen hinten',
+						'Normalsitz vorn rechts',
+						'Normalsitze vorn',
+						'Rücksitzlehne, umklappbar',
+						'Sitzbezüge in Stoff Frequenz',
+						'Navigations CD (Deutschland)',
+						'4 Zyl.Dieselmotor 1,6L Aggr. 03L.1',
+						'4-Zyl.Turbodieselmotor 1,6 L/77 KW(4V) TDI Common-Rail Grundmotor ist: TF3/TN1/TJ1',
+						'5-Gang-Schaltgetriebe',
+						'Abgaskonzept, EU5',
+						'Kraftstoffsystem Diesel',
+						'Start-Stop-System',
+						'Vorderradantrieb',
+						'Dreipunkt-Automatikgurt für mittleren Fondsitz',
+						'ESC mit elektronischer Quersperre',
+						'Kopfairbagsystem',
+						'Leuchtweitenregulierung',
+						'Nebelschlussleuchten',
+						'Scheibenwaschanlage',
+						'Sicherheitskopfstützen',
+						'Tagfahrlicht',
+						'Waschwasserstandsanzeige',
+						'Wegfahrsperre, elektronisch',
+						'elektromechanische Servolenkung',
+						'elektronische Stabilisierungskontrolle (ESC)',
+						'Ausstattung Attraction',
+						'Linkslenker',
+						'Normalausführung'
 					],
-					'verkoper_adres'        => '',//seller address
-					'verkoper_telefoon'     => '',//seller phone
+					'verkoper_adres'        => 'Am Wörtzgarten 20 65510 Idstein',//seller address
+					'verkoper_telefoon'     => '(06126) 2277-19',//seller phone
 					'editted_at'            => '',//edited
-					'carrosserie'           => '',//body type
-					'kleur_exterieur'       => '',//color exterior
-					'kleur_interieur'       => '',//color interior
-					'handler'               => '',//handler/seller
+					'carrosserie'           => 'sportback',//body type
+					'kleur_exterieur'       => 'dakotagrau',//color exterior
+					'kleur_interieur'       => 'schwarz',//color interior
+					'handler'               => 'AUTOSCHMITT IDSTEIN GmbH',//handler/seller
 					'bekleding'             => '',//coating
 					'token'                 => '',//unique car token (for exmaple id)
 					'images'                => [
+						'//vtpimages.audi.com/carimg/3/1920/1440/1/33977675/12656554812.jpg',
+						'//vtpimages.audi.com/carimg/3/1920/1440/2/33977675/12656562438.jpg',
+						'//vtpimages.audi.com/carimg/3/1920/1440/3/33977675/12656557658.jpg',
+						'//vtpimages.audi.com/carimg/3/1920/1440/4/33977675/12656557662.jpg',
+						'//vtpimages.audi.com/carimg/3/1920/1440/5/33977675/12656566382.jpg',
+						'//vtpimages.audi.com/carimg/3/1920/1440/6/33977675/12656565694.jpg',
+						'//vtpimages.audi.com/carimg/3/1920/1440/7/33977675/12656565109.jpg',
+						'//vtpimages.audi.com/carimg/3/1920/1440/8/33977675/12656565901.jpg',
+						'//vtpimages.audi.com/carimg/3/1920/1440/9/33977675/12656547345.jpg',
+						'//vtpimages.audi.com/carimg/3/1920/1440/10/33977675/12656562263.jpg',
+						'//vtpimages.audi.com/carimg/3/1920/1440/11/33977675/12656547224.jpg',
+						'//vtpimages.audi.com/carimg/3/1920/1440/12/33977675/12656547349.jpg',
+						'//vtpimages.audi.com/carimg/3/1920/1440/13/33977675/12656565904.jpg',
+						'//vtpimages.audi.com/carimg/3/1920/1440/14/33977675/12656561856.jpg',
+						'//vtpimages.audi.com/carimg/3/1920/1440/15/33977675/12656567151.jpg',
+						'//vtpimages.audi.com/carimg/3/1920/1440/16/33977675/12656562273.jpg',
+						'//vtpimages.audi.com/carimg/3/1920/1440/1/33977675/12656554812.jpg',
+						'//vtpimages.audi.com/carimg/3/1920/1440/2/33977675/12656562438.jpg',
+						'//vtpimages.audi.com/carimg/3/1920/1440/3/33977675/12656557658.jpg',
+						'//vtpimages.audi.com/carimg/3/1920/1440/4/33977675/12656557662.jpg',
+						'//vtpimages.audi.com/carimg/3/1920/1440/5/33977675/12656566382.jpg',
+						'//vtpimages.audi.com/carimg/3/1920/1440/6/33977675/12656565694.jpg',
+						'//vtpimages.audi.com/carimg/3/1920/1440/7/33977675/12656565109.jpg',
+						'//vtpimages.audi.com/carimg/3/1920/1440/8/33977675/12656565901.jpg',
+						'//vtpimages.audi.com/carimg/3/1920/1440/9/33977675/12656547345.jpg',
+						'//vtpimages.audi.com/carimg/3/1920/1440/10/33977675/12656562263.jpg',
+						'//vtpimages.audi.com/carimg/3/1920/1440/11/33977675/12656547224.jpg',
+						'//vtpimages.audi.com/carimg/3/1920/1440/12/33977675/12656547349.jpg',
+						'//vtpimages.audi.com/carimg/3/1920/1440/13/33977675/12656565904.jpg',
+						'//vtpimages.audi.com/carimg/3/1920/1440/14/33977675/12656561856.jpg',
+						'//vtpimages.audi.com/carimg/3/1920/1440/15/33977675/12656567151.jpg',
+						'//vtpimages.audi.com/carimg/3/1920/1440/16/33977675/12656562273.jpg',
 
 					],
 				]
 			],
 		];
-//		return $result;
-		return [$result[0]];
+		return $result;
 	}
 
 	protected function getUrlPrefix() {
-		if (false) {
+		if (true) {
 			return 'https://www.audi-boerse.de/gebrauchtwagen/';
 		}
 		else {
